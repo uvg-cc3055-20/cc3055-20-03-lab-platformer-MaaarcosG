@@ -11,9 +11,11 @@ public class Character : MonoBehaviour {
     private float speed = 5f;
     private float jumpForce = 250f;
     private bool facingRight = true;
+    private Animator anim;
 
 	// Use this for initialization
 	void Start () {
+        anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         cam.transform.position = new Vector3(rb2d.transform.position.x, cam.transform.position.y, cam.transform.position.z);
@@ -26,6 +28,7 @@ public class Character : MonoBehaviour {
             rb2d.transform.Translate(new Vector3(1, 0, 0) * move * speed * Time.deltaTime);
             cam.transform.position = new Vector3(rb2d.transform.position.x, cam.transform.position.y, cam.transform.position.z);
             facingRight = move > 0;
+            
         }
         
         sr.flipX = !facingRight;
@@ -33,6 +36,8 @@ public class Character : MonoBehaviour {
         if (Input.GetButtonDown("Jump")) {
             rb2d.AddForce(Vector2.up*jumpForce);
         }
+        anim.SetFloat("Speed", Mathf.Abs(move));
 
-	}
+
+    }
 }
